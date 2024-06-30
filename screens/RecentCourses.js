@@ -4,7 +4,7 @@ import Courses from '../components/Courses'
 
 export default function RecentCourses() {
   return (
-    <Courses coursesPeriod="Recent Courses" />
+    <Courses coursesPeriod="Last Week" />
   )
 }
 
