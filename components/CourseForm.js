@@ -38,7 +38,7 @@ export default function CourseForm({
       setInputs((currentInputs) => {
         return {
           amount: { value:Number(currentInputs.amount.value), isValid: amountIsValid },
-          date: { value: currentInputs.amount.date, isValid: dateIsValid },
+          date: { value: currentInputs.date.value.toString(), isValid: dateIsValid },
           description: { value: currentInputs.description.value, isValid: descriptionIsValid },
         };
       });
@@ -63,6 +63,7 @@ export default function CourseForm({
       <View style={styles.priceAndDate}>
         <Input
           label="Amount"
+          inValid={!inputs.amount.isValid}
           textInputConfig={{
             keyboardType: "decimal-pad",
             onChangeText: inputChange.bind(this, "amount"),
@@ -72,6 +73,7 @@ export default function CourseForm({
         />
         <Input
           label="Date"
+          inValid={!inputs.date.isValid}
           textInputConfig={{
             placeHolder: "YYYY-MM-DD",
             maxLength: 10,
@@ -83,12 +85,14 @@ export default function CourseForm({
       </View>
       <Input
         label="Title"
+        inValid={!inputs.description.isValid}
         textInputConfig={{
           multiline: true,
           onChangeText: inputChange.bind(this, "description"),
           value: inputs.description.value,
         }}
       />
+      <View style={styles.error}>
       {!inputs.amount.isValid && (
         <Text style={styles.alertText}>Please enter amount correctly!</Text>
       )}
@@ -98,6 +102,7 @@ export default function CourseForm({
       {!inputs.description.isValid && (
         <Text style={styles.alertText}>Please enter description correctly!</Text>
       )}
+      </View>
       <View style={styles.buttons}>
         <Pressable onPress={cancelHandler}>
           <View style={styles.cancel}>
@@ -154,6 +159,10 @@ const styles = StyleSheet.create({
   },
   saveText: {
     color: "white",
+  },
+  error:{
+    alignItems:'center',
+    marginBottom:10,
   },
   alertText: {
     color:'red',
