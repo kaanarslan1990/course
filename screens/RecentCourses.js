@@ -15,7 +15,7 @@ export default function RecentCourses() {
   })
 
   return (
-    <Courses courses={recentCourses} coursesPeriod="Last Week" />
+    <Courses courses={recentCourses} coursesPeriod="Last Week"  nullText="You don't have recent courses!"/>
   )
 }
 
