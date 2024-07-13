@@ -92,7 +92,7 @@ function CoursesContextProvider({ children }) {
   function deleteCourse(id) {
     dispatch({ type: "DELETE", payload: id });
   }
-  function updateCourse(courseData) {
+  function updateCourse(id,courseData) {
     dispatch({ type: "UPDATE", payload: { id: id, data: courseData } });
   }
 
