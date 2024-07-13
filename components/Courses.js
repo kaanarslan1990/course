@@ -4,11 +4,11 @@ import CourseSummary from "./CourseSummary";
 import CourseList from "./CourseList";
 
 
-export default function Courses({coursesPeriod}) {
+export default function Courses({coursesPeriod,courses}) {
   return (
     <View style={styles.container}>
-      <CourseSummary courses={COURSES} periodName={coursesPeriod} />
-      <CourseList courses={COURSES} />
+      <CourseSummary courses={courses} periodName={coursesPeriod} />
+      <CourseList courses={courses} />
     </View>
   );
 }

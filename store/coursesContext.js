@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useReducer } from "react";
 const COURSES = [
   {
     id: "1",
@@ -52,7 +52,7 @@ const COURSES = [
     id: "9",
     description: "Frontend",
     amount: 69,
-    date: new Date("2022-11-25"),
+    date: new Date("2024-07-10"),
   },
 ];
 

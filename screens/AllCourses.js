@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import Courses from '../components/Courses'
+import { CoursesContext } from '../store/coursesContext'
+
 
 export default function AllCourses() {
+ const coursesContext= useContext(CoursesContext)
   return (
-      <Courses coursesPeriod="All Courses" />
+      <Courses courses={coursesContext.courses} coursesPeriod="All Courses" />
   )
 }
 
