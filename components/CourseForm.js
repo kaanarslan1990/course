@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Input from "./Input";
 import { getFormattedDate } from "../helper/date";
@@ -19,6 +19,14 @@ export default function CourseForm({
       amount:Number(inputs.amount),
       date: new Date(inputs.date),
       description:inputs.description
+    }
+    const amountIsValid = !isNaN(courseData.amount) &&courseData.amount > 0;
+    const dateIsValid = courseData.date.toString() !== 'Invalid Date';
+    const descriptionIsValid = courseData.description.trim().length > 0;
+
+    if(!amountIsValid || !dateIsValid || !descriptionIsValid ){
+      Alert.alert('Invalid Entry', 'Enter correctly all fields!')
+      return;
     }
     onSubmit(courseData)
   }
