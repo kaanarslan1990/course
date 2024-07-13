@@ -1,9 +1,13 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { EvilIcons } from "@expo/vector-icons";
+import { CoursesContext } from "../store/coursesContext";
 
 export default function ManageCourse({ route, navigation }) {
+  const courseContext =useContext(CoursesContext);
+
   const courseId = route.params?.courseId;
+
   let isEditing = false;
   if (courseId) {
     isEditing = true;
@@ -14,7 +18,9 @@ export default function ManageCourse({ route, navigation }) {
       title: isEditing ? "Edit Course" : "Add Course",
     });
   }, [navigation, isEditing]);
+
   function deleteCourse(){
+    courseContext.deleteCourse(courseId)
     navigation.goBack()
   }
 
