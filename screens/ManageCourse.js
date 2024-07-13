@@ -28,38 +28,21 @@ export default function ManageCourse({ route, navigation }) {
   function cancelHandler() {
     navigation.goBack();
   }
-  function addOrUpdateHandler() {
+  function addOrUpdateHandler(courseData) {
     if (isEditing) {
-      courseContext.updateCourse(courseId, {
-        description: "Updated Course",
-        amount: 169,
-        date: new Date(),
-      });
+      courseContext.updateCourse(courseId, courseData);
       navigation.goBack();
     } else {
-      courseContext.addCourse({
-        description: "Added Course",
-        amount: 169,
-        date: new Date(),
-      });
+      courseContext.addCourse(courseData);
       navigation.goBack();
     }
   }
   return (
     <View style={styles.container}>
-      <CourseForm />
-      <View style={styles.buttons}>
-        <Pressable onPress={cancelHandler}>
-          <View style={styles.cancel}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </View>
-        </Pressable>
-        <Pressable onPress={addOrUpdateHandler}>
-          <View style={styles.save}>
-            <Text style={styles.saveText}>{isEditing ? "Update" : "Add"}</Text>
-          </View>
-        </Pressable>
-      </View>
+      <CourseForm buttonLabel={isEditing ? "Update" : "Add"} 
+      cancelHandler={cancelHandler} 
+      onSubmit={addOrUpdateHandler}/>
+      
 
       {isEditing && (
         <View style={styles.deleteContainer}>
@@ -87,28 +70,5 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginTop: 16,
   },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  cancel: {
-    backgroundColor: "red",
-    minWidth: 120,
-    marginRight: 10,
-    padding: 8,
-    alignItems: "center",
-  },
-  cancelText: {
-    color: "white",
-  },
-  save: {
-    backgroundColor: "blue",
-    minWidth: 120,
-    marginRight: 10,
-    padding: 8,
-    alignItems: "center",
-  },
-  saveText: {
-    color: "white",
-  },
+  
 });
