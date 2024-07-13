@@ -1,16 +1,18 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Input from "./Input";
+import { getFormattedDate } from "../helper/date";
 
 export default function CourseForm({
   cancelHandler,
   onSubmit,
   buttonLabel,
+  defaultValues
 }) {
   const [inputs, setInputs] = useState({
-    amount: "",
-    date: "",
-    description: "",
+    amount: defaultValues? defaultValues.amount.toString() :'',
+    date:  defaultValues? getFormattedDate(defaultValues.date) :'',
+    description:  defaultValues? defaultValues.description :'',
   });
   function addOrUpdateHandler(){
     const courseData ={

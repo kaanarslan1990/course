@@ -10,6 +10,10 @@ export default function ManageCourse({ route, navigation }) {
   const courseId = route.params?.courseId;
 
   let isEditing = false;
+  const selectedCourse = courseContext.courses.find(
+    (course) => course.id === courseId
+  );
+
   if (courseId) {
     isEditing = true;
   }
@@ -39,10 +43,12 @@ export default function ManageCourse({ route, navigation }) {
   }
   return (
     <View style={styles.container}>
-      <CourseForm buttonLabel={isEditing ? "Update" : "Add"} 
-      cancelHandler={cancelHandler} 
-      onSubmit={addOrUpdateHandler}/>
-      
+      <CourseForm
+        buttonLabel={isEditing ? "Update" : "Add"}
+        cancelHandler={cancelHandler}
+        onSubmit={addOrUpdateHandler}
+        defaultValues={selectedCourse}
+      />
 
       {isEditing && (
         <View style={styles.deleteContainer}>
@@ -70,5 +76,4 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginTop: 16,
   },
-  
 });
