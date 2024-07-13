@@ -7,35 +7,52 @@ export default function CourseForm({
   cancelHandler,
   onSubmit,
   buttonLabel,
-  defaultValues
+  defaultValues,
 }) {
   const [inputs, setInputs] = useState({
-    amount: defaultValues? defaultValues.amount.toString() :'',
-    date:  defaultValues? getFormattedDate(defaultValues.date) :'',
-    description:  defaultValues? defaultValues.description :'',
+    amount: {
+      value: defaultValues ? defaultValues.amount.toString() : "",
+      isValid: true,
+    },
+    date: {
+      value: defaultValues ? getFormattedDate(defaultValues.date) : "",
+      isValid: true,
+    },
+    description: {
+      value: defaultValues ? defaultValues.description : "",
+      isValid: true,
+    },
   });
-  function addOrUpdateHandler(){
-    const courseData ={
-      amount:Number(inputs.amount),
-      date: new Date(inputs.date),
-      description:inputs.description
-    }
-    const amountIsValid = !isNaN(courseData.amount) &&courseData.amount > 0;
-    const dateIsValid = courseData.date.toString() !== 'Invalid Date';
+  function addOrUpdateHandler() {
+    const courseData = {
+      amount: Number(inputs.amount.value),
+      date: new Date(inputs.date.value),
+      description: inputs.description.value,
+    };
+    const amountIsValid =
+      !isNaN(courseData.amount) && courseData.amount > 0;
+    const dateIsValid = courseData.date.toString() !== "Invalid Date";
     const descriptionIsValid = courseData.description.trim().length > 0;
 
-    if(!amountIsValid || !dateIsValid || !descriptionIsValid ){
-      Alert.alert('Invalid Entry', 'Enter correctly all fields!')
+    if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
+      setInputs((currentInputs) => {
+        return {
+          amount: { value:Number(currentInputs.amount.value), isValid: amountIsValid },
+          date: { value: currentInputs.amount.date, isValid: dateIsValid },
+          description: { value: currentInputs.description.value, isValid: descriptionIsValid },
+        };
+      });
+
       return;
     }
-    onSubmit(courseData)
+    onSubmit(courseData);
   }
 
   function inputChange(inputIdentifier, enteredValue) {
     setInputs((currentInput) => {
       return {
         ...currentInput,
-        [inputIdentifier]: enteredValue,
+        [inputIdentifier]: {value:enteredValue,isValid:true},
       };
     });
   }
@@ -49,7 +66,7 @@ export default function CourseForm({
           textInputConfig={{
             keyboardType: "decimal-pad",
             onChangeText: inputChange.bind(this, "amount"),
-            value: inputs.amount,
+            value: inputs.amount.value.toString(),
           }}
           style={styles.flexAll}
         />
@@ -59,7 +76,7 @@ export default function CourseForm({
             placeHolder: "YYYY-MM-DD",
             maxLength: 10,
             onChangeText: inputChange.bind(this, "date"),
-            value: inputs.date,
+            value: inputs.date.value,
           }}
           style={styles.flexAll}
         />
@@ -69,9 +86,18 @@ export default function CourseForm({
         textInputConfig={{
           multiline: true,
           onChangeText: inputChange.bind(this, "description"),
-          value: inputs.description,
+          value: inputs.description.value,
         }}
       />
+      {!inputs.amount.isValid && (
+        <Text style={styles.alertText}>Please enter amount correctly!</Text>
+      )}
+      {!inputs.date.isValid && (
+        <Text style={styles.alertText}>Please enter date correctly!</Text>
+      )}
+      {!inputs.description.isValid && (
+        <Text style={styles.alertText}>Please enter description correctly!</Text>
+      )}
       <View style={styles.buttons}>
         <Pressable onPress={cancelHandler}>
           <View style={styles.cancel}>
@@ -129,4 +155,8 @@ const styles = StyleSheet.create({
   saveText: {
     color: "white",
   },
+  alertText: {
+    color:'red',
+    marginVertical:4
+  }
 });
