@@ -25,7 +25,7 @@ export async function getCourses() {
 }
 
 export function updateCourseUrl(id, courseData) {
-  return axios.put(url + `/courses/${id}.json`, courseData);
+  return axios.put(url + `/courses./${id}.json`, courseData);
 }
 
 export function deleteCourseUrl(id) {
