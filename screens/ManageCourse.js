@@ -3,7 +3,7 @@ import React, { useContext, useLayoutEffect } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import { CoursesContext } from "../store/coursesContext";
 import CourseForm from "../components/CourseForm";
-import { storeCourse } from "../helper/http";
+import { deleteCourseUrl, storeCourse, updateCourseUrl} from "../helper/http";
 
 export default function ManageCourse({ route, navigation }) {
   const courseContext = useContext(CoursesContext);
@@ -25,21 +25,23 @@ export default function ManageCourse({ route, navigation }) {
     });
   }, [navigation, isEditing]);
 
-  function deleteCourse() {
+  async function deleteCourse() {
     courseContext.deleteCourse(courseId);
+    await deleteCourseUrl(courseId)
     navigation.goBack();
   }
 
   function cancelHandler() {
     navigation.goBack();
   }
-  function addOrUpdateHandler(courseData) {
+  async function addOrUpdateHandler(courseData) {
     if (isEditing) {
       courseContext.updateCourse(courseId, courseData);
+     await updateCourseUrl(courseId, courseData);
       navigation.goBack();
     } else {
-      storeCourse(courseData)
-      courseContext.addCourse(courseData);
+      const id = await storeCourse(courseData);
+      courseContext.addCourse({ ...courseData, id: id });
       navigation.goBack();
     }
   }
